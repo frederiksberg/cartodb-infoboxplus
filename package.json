@@ -1,0 +1,16 @@
+{
+  "name": "cartodb-infoboxplus",
+  "version": "0.1.0",
+  "description": "A leaflet control for getting expanded infoboxes from a cartodb layer.",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Niels Kjøller Hansen",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "expose-loader": "^0.7.1",
+    "source-map-loader": "^0.1.5",
+    "ts-loader": "^0.9.4"
+  }
+}
