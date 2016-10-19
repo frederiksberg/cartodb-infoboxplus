@@ -54,7 +54,9 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["models"] = __webpack_require__(2);
+	/* WEBPACK VAR INJECTION */(function(global) {if (!global["L"])
+	    global["L"] = {};
+	module.exports = global["L"]["models"] = __webpack_require__(2);
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 

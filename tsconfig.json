@@ -7,7 +7,10 @@
     "target": "es5"
   },
   "files": [
+    "./src/components/views.ts",
+    "./src/components/views.ts",
     "./src/components/models.ts",
+    "./src/components/controllers.ts",
     "./src/index.ts"
   ]
 }

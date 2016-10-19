@@ -1,12 +1,12 @@
+import {InfoController} from './controllers'
+
 export class InfoModel {
-  public testString: string;
+  isActive: boolean;
+  cursorBeforeActive: string;
+  selectedFeatureIds: number[];
+  controller: InfoController;
 
-  constructor(inputA: string, inputB: string) {
-    this.testString = inputA + " " + inputB;
-  }
-
-  saySomething(): string {
-    console.log(this.testString);
-    return this.testString;
+  constructor(controller: InfoController) {
+    this.controller = controller;
   }
 }

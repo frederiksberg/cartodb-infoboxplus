@@ -15,8 +15,8 @@ module.exports = {
     module: {
         loaders: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-            { test: /\.tsx?$/, loader: "ts-loader" },
-            { test: require.resolve('./src/components/models.ts'), loader: 'expose?models!ts-loader' }
+            { test: /\.tsx?$/, loader: "ts-loader" }
+            ,{ test: require.resolve('./src/components/models.ts'), loader: 'expose?L.models!ts-loader' }
         ],
 
         preLoaders: [
@@ -30,6 +30,6 @@ module.exports = {
     // This is important because it allows us to avoid bundling all of our
     // dependencies, which allows browsers to cache those libraries between builds.
     externals: {
-        // "react": "React",
+        "leaflet": "L",
     },
 };

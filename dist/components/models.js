@@ -1,12 +1,8 @@
 "use strict";
 var InfoModel = (function () {
-    function InfoModel(inputA, inputB) {
-        this.testString = inputA + " " + inputB;
+    function InfoModel(controller) {
+        this.controller = controller;
     }
-    InfoModel.prototype.saySomething = function () {
-        console.log(this.testString);
-        return this.testString;
-    };
     return InfoModel;
 }());
 exports.InfoModel = InfoModel;
