@@ -3,15 +3,165 @@
     <head>
         <meta charset="UTF-8" />
         <title>Hello TypeScript!</title>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
+        <style>
+          html,body,#map {
+            height:100%;
+            padding:0;
+            margin:0;
+          }
+          .leaflet-control-cartodb-infoboxplus {
+            background-color: white;
+          }
+
+          .leaflet-control-cartodb-infoboxplus {
+          	border-radius: 4px;
+          	background: white;
+          	min-width: 26px;
+          	min-height: 26px;
+          }
+
+          .leaflet-touch .leaflet-control-cartodb-infoboxplus {
+          	min-width: 30px;
+          	min-height: 30px;
+          }
+
+          .leaflet-control-cartodb-infoboxplus a, .leaflet-control-cartodb-infoboxplus .leaflet-control-cartodb-infoboxplus-icon {
+          	border-bottom: none;
+          	display: inline-block;
+          }
+
+          .leaflet-control-cartodb-infoboxplus .leaflet-control-cartodb-infoboxplus-alternatives a {
+          	width: inherit;
+          	height: inherit;
+          	line-height: inherit;
+          }
+
+          .leaflet-control-cartodb-infoboxplus a:hover, .leaflet-control-cartodb-infoboxplus .leaflet-control-cartodb-infoboxplus-icon:hover {
+          	border-bottom: none;
+          	display: inline-block;
+          }
+
+          .leaflet-control-cartodb-infoboxplus-expanded {
+          	display: inline-block;
+          }
+
+          .leaflet-control-cartodb-infoboxplus-icon {
+          	border-radius: 4px;
+          	width: 26px;
+          	height: 26px;
+          	border: none;
+          	background-color: white;
+          }
+
+          .leaflet-touch .leaflet-control-cartodb-infoboxplus-icon {
+          	width: 30px;
+          	height: 30px;
+          }
+
+          .leaflet-control-cartodb-infoboxplus-alternatives {
+          	display: block;
+          	width: 272px;
+          	list-style: none;
+          	padding: 0;
+          	margin: 0;
+          }
+
+          .leaflet-control-geocoder-cartodb-infoboxplus-minimized {
+          	display: none;
+          	height: 0;
+          }
+          .leaflet-control-cartodb-infoboxplus-alternatives li {
+          	white-space: nowrap;
+          	display: block;
+          	overflow: hidden;
+          	padding: 5px 8px;
+          	text-overflow: ellipsis;
+          	border-bottom: 1px solid #ccc;
+          	cursor: pointer;
+          }
+
+          .leaflet-control-cartodb-infoboxplus-alternatives li a, .leaflet-control-cartodb-infoboxplus-alternatives li a:hover {
+          	width: inherit;
+          	height: inherit;
+          	line-height: inherit;
+          	background: inherit;
+          	border-radius: inherit;
+          	text-align: left;
+          }
+
+          .leaflet-control-cartodb-infoboxplus-alternatives li:last-child {
+          	border-bottom: none;
+          }
+          .leaflet-control-cartodb-infoboxplus-alternatives li:hover, .leaflet-control-cartodb-infoboxplus-selected {
+          	background-color: #f5f5f5;
+          }
+          .leaflet-control-geocoder-cartodb-infoboxplus-context {
+          	color: #666;
+          }
+
+          .leaflet-popup-content {
+            max-height: 200px;
+            overflow: auto;
+
+          }
+          .leaflet-popup-content h4 {
+            font-size: 10pt !important;
+
+            margin: 0;
+            padding:0;
+          }
+
+          .leaflet-popup-content p {
+            font-size: 9pt !important
+            margin: 6px 0;
+          }
+
+        </style>
+
     </head>
     <body>
         <div id="example"></div>
-        <div id="map" style="height:480px; width:640px;"></div>
+        <div id="map"></div>
 
         <!-- Dependencies -->
-        <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
-        <!-- Main -->
+        <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>        <!-- Main -->
         <script src="../dist/bundle.js"></script>
+        <script>
+          var mainapp = function(vis,layers) {
+            var infoOptions = {
+              position: 'topright',
+              layer: layers[1],
+              sublayerNumber: 0,
+            }
+
+            map = vis.getNativeMap();
+            map.addControl(new InfoBoxPlus.InfoBoxPlusControl(infoOptions));
+
+/*  map.on('click', function(e) {
+    var original_sql = infowindowConf.layer.getSubLayer(infowindowConf.sublayerNumber).getSQL();
+    var q = "SELECT cartodb_id FROM (" + original_sql+ ") a WHERE ST_Intersects(the_geom, ST_Buffer(ST_GeomFromText('POINT(" + e.latlng.lng+ " " + e.latlng.lat + ")',4326), 0.0002))"
+    var sqlURL = layers[1].options.sql_api_protocol + '://' +
+          layers[1].options.user_name + '.' +
+          layers[1].options.sql_api_domain + ':' +
+          layers[1].options.sql_api_port +
+          layers[1].options.sql_api_endpoint;
+
+    var requestUrl = sqlURL + '?q=' + encodeURIComponent(q)
+    $.getJSON(requestUrl, function(data) {
+      $.each(data.rows, function(key, value) {
+        console.log(value)
+      });
+    });
+  });*/
+          };
+
+
+window.onload = function() {
+  // cartodb.createVis('map', 'https://kjlr.cartodb.com/api/v2/viz/38447dd6-c32f-11e5-a9df-0e31c9be1b51/viz.json').done(mainapp)
+  cartodb.createVis('map', 'https://frederiksberg.cartodb.com/api/v2/viz/b607567a-316c-11e6-ab22-0ecfd53eb7d3/viz.json').done(mainapp)
+}
+</script>
+
     </body>
 </html>

@@ -16,7 +16,7 @@ module.exports = {
         loaders: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
             { test: /\.tsx?$/, loader: "ts-loader" }
-            ,{ test: require.resolve('./src/components/models.ts'), loader: 'expose?L.models!ts-loader' }
+            ,{ test: require.resolve('./src/components/leaflet-control.ts'), loader: 'expose?InfoBoxPlus!ts-loader' }
         ],
 
         preLoaders: [

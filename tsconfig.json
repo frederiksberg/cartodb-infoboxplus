@@ -11,6 +11,7 @@
     "./src/components/views.ts",
     "./src/components/models.ts",
     "./src/components/controllers.ts",
+    "./src/components/leaflet-control.ts",
     "./src/index.ts"
   ]
 }
