@@ -4,7 +4,8 @@ declare var L : any; // horrible hack
 
 export interface InfoBoxPlusOptions extends ControlOptions {
   layer: any;
-  sublayerNumber: Number;
+  sublayerNumber: number;
+  pixel_buffer: number
 }
 
 export class InfoBoxPlusControl implements Control {
@@ -24,7 +25,8 @@ export class InfoBoxPlusControl implements Control {
     L.DomEvent.disableClickPropagation(controlElement);
     this.controller = new InfoController(controlElement, map, {
       layer: this.options.layer,
-      sublayerNumber: this.options.sublayerNumber
+      sublayerNumber: this.options.sublayerNumber,
+      pixel_buffer: this.options.pixel_buffer
     });
 
     return controlElement;

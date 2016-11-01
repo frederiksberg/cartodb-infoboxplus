@@ -8,7 +8,8 @@ declare var $ : any; // horrible hack.
 
 export interface InfoOptions {
   layer: any;
-  sublayerNumber: Number;
+  sublayerNumber: number;
+  pixel_buffer: number
 }
 
 export class InfoController {
@@ -27,7 +28,7 @@ export class InfoController {
     this.model.sublayer = options.layer.getSubLayer(options.sublayerNumber)
     let model = this.model;
     this.mapClickFunction = function(e: any) {
-      model.getFeatures(e.latlng);
+      model.getFeatures(e.latlng, map.getZoom(),5);
       model.activePopup = L.popup().setLatLng(e.latlng);
       model.activePopup.setContent('<p>Venter på data ...</p>');
       map.openPopup(model.activePopup);
