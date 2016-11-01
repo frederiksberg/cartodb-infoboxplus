@@ -13,14 +13,15 @@ export class InfoModel {
   layer: any;
   sublayer: any;
   controller: InfoController;
+  noDataMessage: string;
 
   constructor(controller: InfoController) {
     this.controller = controller;
     this.selectedFeatures = [];
   }
 
-  getFeatures(latlng: LatLng, z: number, pixel_buffer: number) {
-    let buffer = (pixel_buffer * 1.4)/Math.pow(2,z)
+  getFeatures(latlng: LatLng, z: number, pixelBuffer: number) {
+    let buffer = (pixelBuffer * 1.4)/Math.pow(2,z)
     let original_sql = this.sublayer.getSQL();
 //    let q = "SELECT cartodb_id, ledningstype FROM (" + original_sql+ ") a WHERE ST_Intersects(the_geom, ST_Buffer(ST_GeomFromText('POINT(" + latlng.lng+ " " + latlng.lat + ")',4326), 0.0002))"
     let q = "SELECT * FROM (" + original_sql+ ") a WHERE ST_Intersects(the_geom, ST_Buffer(ST_GeomFromText('POINT(" + latlng.lng+ " " + latlng.lat + ")',4326), " + buffer + "))"
@@ -34,10 +35,8 @@ export class InfoModel {
 
     let self = this;
     $.getJSON(requestUrl, function(data) {
-       if (data.rows.length > 0) {
-         self.selectedFeatures = data.rows;
-         self.controller.featuresUpdated();
-       }
+       self.selectedFeatures = data.rows;
+       self.controller.featuresUpdated();
     })
   }
 }

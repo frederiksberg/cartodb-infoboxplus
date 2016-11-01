@@ -9,7 +9,8 @@ declare var $ : any; // horrible hack.
 export interface InfoOptions {
   layer: any;
   sublayerNumber: number;
-  pixel_buffer: number
+  pixelBuffer: number
+  noDataMessage: string;
 }
 
 export class InfoController {
@@ -26,6 +27,7 @@ export class InfoController {
     this.model.map = map;
     this.model.layer = options.layer;
     this.model.sublayer = options.layer.getSubLayer(options.sublayerNumber)
+    this.model.noDataMessage = options.noDataMessage;
     let model = this.model;
     this.mapClickFunction = function(e: any) {
       model.getFeatures(e.latlng, map.getZoom(),5);
@@ -35,7 +37,6 @@ export class InfoController {
     }
   }
   featuresUpdated() {
-    console.log(this.model.selectedFeatures);
     if (this.model.selectedFeatures.length > 1) {
       this.model.controlElement.className += ' leaflet-control-cartodb-infoboxplus-expanded';
       this.listView.buildList(this.model.selectedFeatures);
@@ -43,14 +44,14 @@ export class InfoController {
     } else {
       this.listView.hide();
     }
+    let popup_html: string;
     if (this.model.selectedFeatures.length > 0) {
-      console.log(this.model.sublayer);
-      console.log(this.model.sublayer.infowindow.attributes.template);
-      console.log(this.model.selectedFeatures[0]);
-      let popup_html = this._stripCartoTemplate(render(this.model.sublayer.infowindow.attributes.template,
+      popup_html = this._stripCartoTemplate(render(this.model.sublayer.infowindow.attributes.template,
                                                        this.model.selectedFeatures[0]));
-      this.model.activePopup.setContent(popup_html);
+    } else {
+      popup_html = this.model.noDataMessage;
     }
+    this.model.activePopup.setContent(popup_html);
   }
   getControlElement() {
     return this.model.controlElement;

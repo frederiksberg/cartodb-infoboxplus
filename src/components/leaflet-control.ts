@@ -5,7 +5,9 @@ declare var L : any; // horrible hack
 export interface InfoBoxPlusOptions extends ControlOptions {
   layer: any;
   sublayerNumber: number;
-  pixel_buffer: number
+  pixelBuffer?: number;
+  noDataMessage?: string;
+
 }
 
 export class InfoBoxPlusControl implements Control {
@@ -23,10 +25,12 @@ export class InfoBoxPlusControl implements Control {
     let controlElement = document.createElement('div');
     controlElement.className = 'leaflet-control-cartodb-infoboxplus leaflet-bar leaflet-control';
     L.DomEvent.disableClickPropagation(controlElement);
+
     this.controller = new InfoController(controlElement, map, {
       layer: this.options.layer,
       sublayerNumber: this.options.sublayerNumber,
-      pixel_buffer: this.options.pixel_buffer
+      pixelBuffer: (this.options.pixelBuffer == null) ? 5 : this.options.pixelBuffer,
+      noDataMessage: (this.options.noDataMessage == null) ? 'No data at this location.' : this.options.noDataMessage
     });
 
     return controlElement;
