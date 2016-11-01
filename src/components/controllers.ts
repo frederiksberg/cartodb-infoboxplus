@@ -9,8 +9,9 @@ declare var $ : any; // horrible hack.
 export interface InfoOptions {
   layer: any;
   sublayerNumber: number;
-  pixelBuffer: number
+  pixelBuffer: number;
   noDataMessage: string;
+  autostart: boolean;
 }
 
 export class InfoController {
@@ -34,6 +35,9 @@ export class InfoController {
       model.activePopup = L.popup().setLatLng(e.latlng);
       model.activePopup.setContent('<p>Venter på data ...</p>');
       map.openPopup(model.activePopup);
+    }
+    if (options.autostart) {
+      this.activateTool();
     }
   }
   featuresUpdated() {
