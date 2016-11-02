@@ -1,5 +1,5 @@
-import { Map, EventHandlerFn } from 'leaflet';
-import { InfoButtonView, InfoListView } from './views';
+import { Map, EventHandlerFn, Layer } from 'leaflet';
+import { InfoButtonView, InfoListView, InfoMapLayerView } from './views';
 import { InfoModel} from './models';
 declare var L : any; // horrible hack.
 declare var $ : any; // horrible hack.
@@ -17,6 +17,7 @@ export class InfoController {
   model: InfoModel;
   buttonView: InfoButtonView;
   listView: InfoListView;
+  mapLayerView: InfoMapLayerView;
   mapClickFunction : EventHandlerFn;
 
   constructor(element: HTMLElement, map: Map, options: InfoOptions) {
@@ -29,7 +30,13 @@ export class InfoController {
     this.model.sublayer = options.layer.getSubLayer(options.sublayerNumber)
     this.model.noDataMessage = options.noDataMessage;
     this.model.template = this._stripCartoTemplate(this.model.sublayer.infowindow.attributes.template);
+    this.mapLayerView = new InfoMapLayerView(this);
+
     let model = this.model;
+    let mapLayerView = this.mapLayerView;
+    this.model.map.on('popupclose', function(e: any) {
+      mapLayerView.clearData();
+    });
     this.mapClickFunction = function(e: any) {
       model.getFeatures(e.latlng, map.getZoom(),5);
       model.activePopup = L.popup().setLatLng(e.latlng);
@@ -45,6 +52,7 @@ export class InfoController {
     let self = this;
     return function(e: any) {
       self.listView.updatePopup(feature, self.model.template);
+      self.mapLayerView.showFeature(JSON.parse(feature.geojson));
       self.listView.updateActiveListItem(listIndex);
     };
   }
@@ -54,6 +62,9 @@ export class InfoController {
     this.model.activePopup.openOn(this.model.map);
   }
 
+  addLayerToMap(layer: Layer) {
+    this.model.map.addLayer(layer);
+  }
 
   featuresUpdated() {
     if (this.model.selectedFeatures.length > 1) {
@@ -66,6 +77,7 @@ export class InfoController {
     let popup_html: string;
     if (this.model.selectedFeatures.length > 0) {
       this.listView.updatePopup(this.model.selectedFeatures[0], this.model.template)
+      this.mapLayerView.showFeature(JSON.parse(this.model.selectedFeatures[0].geojson));
     } else {
       popup_html = this.model.noDataMessage;
     }

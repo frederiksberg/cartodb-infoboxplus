@@ -1,5 +1,6 @@
 import {InfoController} from './controllers';
 import { render } from 'mustache';
+import { GeoJSON } from 'leaflet';
 declare var L : any; // horrible hack.
 
 export class InfoButtonView {
@@ -92,4 +93,26 @@ export class InfoListView {
     popup_html = render(template,feature);
     this.controller.setPopupContent(popup_html);
   }
+}
+
+export class InfoMapLayerView {
+  controller: InfoController;
+  isHidden: boolean;
+  activeFeature: any;
+  layer: GeoJSON;
+
+  constructor(controller: InfoController) {
+    this.controller = controller;
+    this.layer = L.geoJson(null, {style: function(feature: any) { return {color: '#f00'}}});
+    this.controller.addLayerToMap(this.layer);
+  }
+
+  showFeature(geojson: string) {
+    this.clearData();
+    this.layer.addData(geojson);
+  }
+  clearData() {
+    this.layer.clearLayers();
+  }
+
 }

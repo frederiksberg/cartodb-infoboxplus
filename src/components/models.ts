@@ -25,7 +25,7 @@ export class InfoModel {
     let buffer = (pixelBuffer * 1.4)/Math.pow(2,z)
     let original_sql = this.sublayer.getSQL();
 //    let q = "SELECT cartodb_id, ledningstype FROM (" + original_sql+ ") a WHERE ST_Intersects(the_geom, ST_Buffer(ST_GeomFromText('POINT(" + latlng.lng+ " " + latlng.lat + ")',4326), 0.0002))"
-    let q = "SELECT * FROM (" + original_sql+ ") a WHERE ST_Intersects(the_geom, ST_Buffer(ST_GeomFromText('POINT(" + latlng.lng+ " " + latlng.lat + ")',4326), " + buffer + "))"
+    let q = "SELECT ST_AsGeoJSON(the_geom) as geojson, * FROM (" + original_sql+ ") a WHERE ST_Intersects(the_geom, ST_Buffer(ST_GeomFromText('POINT(" + latlng.lng+ " " + latlng.lat + ")',4326), " + buffer + "))"
     let sqlURL = this.layer.options.sql_api_protocol + '://' +
       this.layer.options.user_name + '.' +
       this.layer.options.sql_api_domain + ':' +
