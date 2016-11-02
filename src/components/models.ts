@@ -12,6 +12,7 @@ export class InfoModel {
   map: Map;
   layer: any;
   sublayer: any;
+  template: string;
   controller: InfoController;
   noDataMessage: string;
 

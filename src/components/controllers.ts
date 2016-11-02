@@ -1,7 +1,6 @@
 import { Map, EventHandlerFn } from 'leaflet';
 import { InfoButtonView, InfoListView } from './views';
 import { InfoModel} from './models';
-import { render } from 'mustache';
 declare var L : any; // horrible hack.
 declare var $ : any; // horrible hack.
 
@@ -29,6 +28,7 @@ export class InfoController {
     this.model.layer = options.layer;
     this.model.sublayer = options.layer.getSubLayer(options.sublayerNumber)
     this.model.noDataMessage = options.noDataMessage;
+    this.model.template = this._stripCartoTemplate(this.model.sublayer.infowindow.attributes.template);
     let model = this.model;
     this.mapClickFunction = function(e: any) {
       model.getFeatures(e.latlng, map.getZoom(),5);
@@ -40,6 +40,19 @@ export class InfoController {
       this.activateTool();
     }
   }
+
+  createListClickFunction(feature: any) : EventHandlerFn {
+    let self = this;
+    return function(e: any) {
+      self.listView.updatePopup(feature, self.model.template);
+    };
+  }
+
+  setPopupContent(popup_html: string) {
+    this.model.activePopup.setContent(popup_html);
+  }
+
+
   featuresUpdated() {
     if (this.model.selectedFeatures.length > 1) {
       this.model.controlElement.className += ' leaflet-control-cartodb-infoboxplus-expanded';
@@ -50,8 +63,7 @@ export class InfoController {
     }
     let popup_html: string;
     if (this.model.selectedFeatures.length > 0) {
-      popup_html = this._stripCartoTemplate(render(this.model.sublayer.infowindow.attributes.template,
-                                                       this.model.selectedFeatures[0]));
+      this.listView.updatePopup(this.model.selectedFeatures[0], this.model.template)
     } else {
       popup_html = this.model.noDataMessage;
     }
@@ -63,6 +75,10 @@ export class InfoController {
 
   getToolActive() : boolean {
     return this.model.isActive;
+  }
+
+  getTemplate() : string {
+    return this.model.template;
   }
 
   deactivateTool() {

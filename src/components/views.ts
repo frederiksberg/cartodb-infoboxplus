@@ -1,4 +1,5 @@
 import {InfoController} from './controllers';
+import { render } from 'mustache';
 declare var L : any; // horrible hack.
 
 export class InfoButtonView {
@@ -44,17 +45,6 @@ export class InfoListView {
     this.listElement = document.createElement('ul');
     this.listElement.style.display='none';
     this.listElement.className='leaflet-control-cartodb-infoboxplus-alternatives'
-    // this.listElement.style.listStyle = 'none';
-    // this.listElement.style.padding='0';
-    // this.listElement.style.margin='0';
-
-    for (let i=1; i<5; i++) {
-      let listItem = document.createElement('li');
-      let listLink = document.createElement('a');
-      listLink.innerText = '' + i + '. element';
-      listItem.appendChild(listLink);
-      this.listElement.appendChild(listItem);
-    }
     mainElement.appendChild(this.listElement);
   };
   hide() {
@@ -72,13 +62,20 @@ export class InfoListView {
   buildList(features: any[]) {
     this.emptyList();
     let listElement = this.listElement;
+    let self = this;
     features.forEach(function(feature: any, index: Number, array: any[]) {
       let listItem = document.createElement('li');
       let listLink = document.createElement('a');
+      listItem.onclick = self.controller.createListClickFunction(feature);
       listLink.innerText = '' + (index.valueOf()+1) + '. ' + feature.ledningstype;
       listItem.appendChild(listLink);
       listElement.appendChild(listItem);
     });
   }
 
+  updatePopup(feature: any, template: string) {
+    let popup_html: string;
+    popup_html = render(template,feature);
+    this.controller.setPopupContent(popup_html)
+  }
 }
