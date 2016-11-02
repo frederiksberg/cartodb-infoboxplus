@@ -51,6 +51,7 @@ export class InfoController {
 
   setPopupContent(popup_html: string) {
     this.model.activePopup.setContent(popup_html);
+    this.model.activePopup.openOn(this.model.map);
   }
 
 

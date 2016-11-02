@@ -90,6 +90,6 @@ export class InfoListView {
   updatePopup(feature: any, template: string) {
     let popup_html: string;
     popup_html = render(template,feature);
-    this.controller.setPopupContent(popup_html)
+    this.controller.setPopupContent(popup_html);
   }
 }
