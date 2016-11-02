@@ -63,14 +63,28 @@ export class InfoListView {
     this.emptyList();
     let listElement = this.listElement;
     let self = this;
-    features.forEach(function(feature: any, index: Number, array: any[]) {
+    features.forEach(function(feature: any, index: number, array: any[]) {
       let listItem = document.createElement('li');
       let listLink = document.createElement('a');
-      listItem.onclick = self.controller.createListClickFunction(feature);
+      if (index === 0) {
+        listItem.className = 'active';
+      }
+      listItem.onclick = self.controller.createListClickFunction(feature, index);
       listLink.innerText = '' + (index.valueOf()+1) + '. ' + feature.ledningstype;
       listItem.appendChild(listLink);
       listElement.appendChild(listItem);
     });
+  }
+
+  updateActiveListItem(featureIndex: number) {
+    for (let i = 0; i < this.listElement.children.length; i++) {
+      let child = this.listElement.children[i];
+      if (i===featureIndex) {
+        child.className = 'active';
+      } else {
+        child.className = '';
+      }
+    }
   }
 
   updatePopup(feature: any, template: string) {

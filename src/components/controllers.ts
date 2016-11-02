@@ -41,10 +41,11 @@ export class InfoController {
     }
   }
 
-  createListClickFunction(feature: any) : EventHandlerFn {
+  createListClickFunction(feature: any, listIndex: number) : EventHandlerFn {
     let self = this;
     return function(e: any) {
       self.listView.updatePopup(feature, self.model.template);
+      self.listView.updateActiveListItem(listIndex);
     };
   }
 
