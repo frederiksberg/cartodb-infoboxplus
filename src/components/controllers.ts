@@ -2,8 +2,6 @@ import { Map, EventHandlerFn, Layer } from 'leaflet';
 import { InfoButtonView, InfoListView, InfoMapLayerView } from './views';
 import { InfoModel} from './models';
 declare var L : any; // horrible hack.
-declare var $ : any; // horrible hack.
-
 
 export interface InfoOptions {
   layer: any;

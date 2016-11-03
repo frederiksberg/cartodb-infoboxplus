@@ -1,6 +1,5 @@
 import {Map, LatLng, Popup} from 'leaflet';
 import {InfoController} from './controllers'
-import * as $ from 'jquery'
 
 export class InfoModel {
   controlElement: HTMLElement;
@@ -35,9 +34,17 @@ export class InfoModel {
     let requestUrl = sqlURL + '?q=' + encodeURIComponent(q);
 
     let self = this;
-    $.getJSON(requestUrl, function(data) {
-       self.selectedFeatures = data.rows;
-       self.controller.featuresUpdated();
-    })
+    let req = new XMLHttpRequest();
+    req.open("GET", requestUrl);
+    req.onload = function() {
+      if (this.status >= 200 && this.status < 400) {
+        self.selectedFeatures = JSON.parse(this.response).rows;
+        self.controller.featuresUpdated();
+      } else {
+        // Error returned from the server;
+      }
+    }
+
+    req.send();
   }
 }
