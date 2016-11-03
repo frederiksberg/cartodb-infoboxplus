@@ -1,10 +1,10 @@
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
     entry: "./src/index.ts",
     output: {
-        filename: "./dist/bundle.js",
+        filename: "./dist/cartodb-infoboxplus.js",
     },
-
-    // Enable sourcemaps for debugging webpack's output.
     devtool: "source-map",
 
     resolve: {
@@ -17,6 +17,7 @@ module.exports = {
             // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
             { test: /\.tsx?$/, loader: "ts-loader" }
             ,{ test: require.resolve('./src/components/leaflet-control.ts'), loader: 'expose?InfoBoxPlus!ts-loader' }
+            ,{ test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass?sourceMap')}
         ],
 
         preLoaders: [
@@ -32,4 +33,5 @@ module.exports = {
     externals: {
         "leaflet": "L",
     },
+    plugins: [new ExtractTextPlugin('dist/cartodb-infoboxplus.css')]
 };
