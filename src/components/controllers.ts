@@ -6,6 +6,7 @@ declare var L : any; // horrible hack.
 export interface InfoOptions {
   layer: any;
   sublayerNumber: number;
+  objectField: string;
   pixelBuffer: number;
   noDataMessage: string;
   autostart: boolean;
@@ -25,6 +26,7 @@ export class InfoController {
     this.listView = new InfoListView(this);
     this.model.map = map;
     this.model.layer = options.layer;
+    this.model.objectField = options.objectField;
     this.model.sublayer = options.layer.getSubLayer(options.sublayerNumber)
     this.model.noDataMessage = options.noDataMessage;
     this.model.template = this._stripCartoTemplate(this.model.sublayer.infowindow.attributes.template);
@@ -114,6 +116,10 @@ export class InfoController {
     this.model.map.on('click', this.mapClickFunction);
     this.model.isActive = true;
     console.log('Infobox tool is now active.')
+  }
+
+  getObjectField() {
+    return this.model.objectField;
   }
   private _stripCartoTemplate(cartoHTML : string) : string{
 

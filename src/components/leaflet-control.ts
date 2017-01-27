@@ -5,10 +5,10 @@ declare var L : any; // horrible hack
 export interface InfoBoxPlusOptions extends ControlOptions {
   layer: any;
   sublayerNumber: number;
+  objectField: string;
   pixelBuffer?: number;
   noDataMessage?: string;
   autostart?: boolean;
-
 }
 
 export class InfoBoxPlusControl implements Control {
@@ -30,9 +30,11 @@ export class InfoBoxPlusControl implements Control {
     this.controller = new InfoController(controlElement, map, {
       layer: this.options.layer,
       sublayerNumber: this.options.sublayerNumber,
+      objectField: this.options.objectField,
       pixelBuffer: (this.options.pixelBuffer == null) ? 5 : this.options.pixelBuffer,
       noDataMessage: (this.options.noDataMessage == null) ? 'No data at this location.' : this.options.noDataMessage,
       autostart: (this.options.autostart == null) ? false : this.options.autostart
+
     });
 
     return controlElement;

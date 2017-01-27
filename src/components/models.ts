@@ -14,6 +14,7 @@ export class InfoModel {
   template: string;
   controller: InfoController;
   noDataMessage: string;
+  objectField: string;
 
   constructor(controller: InfoController) {
     this.controller = controller;

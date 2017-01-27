@@ -71,7 +71,7 @@ export class InfoListView {
         listItem.className = 'active';
       }
       listItem.onclick = self.controller.createListClickFunction(feature, index);
-      listLink.innerText = '' + (index.valueOf()+1) + '. ' + feature.ledningstype;
+      listLink.innerText = '' + (index.valueOf()+1) + '. ' + feature[self.controller.getObjectField()];
       listItem.appendChild(listLink);
       listElement.appendChild(listItem);
     });
