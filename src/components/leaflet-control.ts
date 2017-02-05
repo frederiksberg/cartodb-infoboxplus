@@ -6,6 +6,7 @@ export interface InfoBoxPlusOptions extends ControlOptions {
   layer: any;
   sublayerNumber: number;
   objectField: string;
+  heading?: string;
   pixelBuffer?: number;
   noDataMessage?: string;
   autostart?: boolean;
@@ -33,8 +34,8 @@ export class InfoBoxPlusControl implements Control {
       objectField: this.options.objectField,
       pixelBuffer: (this.options.pixelBuffer == null) ? 5 : this.options.pixelBuffer,
       noDataMessage: (this.options.noDataMessage == null) ? 'No data at this location.' : this.options.noDataMessage,
-      autostart: (this.options.autostart == null) ? false : this.options.autostart
-
+      autostart: (this.options.autostart == null) ? false : this.options.autostart,
+      heading: this.options.heading
     });
 
     return controlElement;

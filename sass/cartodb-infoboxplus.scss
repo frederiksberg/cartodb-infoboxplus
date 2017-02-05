@@ -5,15 +5,26 @@
   min-width: 26px;
   min-height: 26px;
 
-  a, .leaflet-control-infoboxplus-icon {
+  a.leaflet-control-cartodb-infoboxplus-icon {
     border-bottom: none;
     display: inline-block;
     border-radius: 4px;
+    font-family: serif;
     width: 26px;
     height: 26px;
     border: none;
     background-color: white;
-
+  }
+  a.leaflet-control-cartodb-infoboxplus-icon-expanded {
+    border-bottom: none;
+    display: inline-block;
+    border-radius: 4px;
+    width: 268px;
+    height: 26px;
+    border: none;
+    text-align:left;
+    padding-left:4px;
+    background-color: white;
   }
   .leaflet-control-cartodb-infoboxplus-alternatives {
     display: block;

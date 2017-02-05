@@ -7,6 +7,7 @@ export interface InfoOptions {
   layer: any;
   sublayerNumber: number;
   objectField: string;
+  heading: string;
   pixelBuffer: number;
   noDataMessage: string;
   autostart: boolean;
@@ -30,6 +31,7 @@ export class InfoController {
     this.model.sublayer = options.layer.getSubLayer(options.sublayerNumber)
     this.model.noDataMessage = options.noDataMessage;
     this.model.template = this._stripCartoTemplate(this.model.sublayer.infowindow.attributes.template);
+    this.model.heading = options.heading;
     this.mapLayerView = new InfoMapLayerView(this);
 
     let model = this.model;
@@ -71,8 +73,10 @@ export class InfoController {
       this.model.controlElement.className += ' leaflet-control-cartodb-infoboxplus-expanded';
       this.listView.buildList(this.model.selectedFeatures);
       this.listView.show();
+      this.buttonView.showHeading(this.model.heading);
     } else {
       this.listView.hide();
+      this.buttonView.hideHeading();
     }
     let popup_html: string;
     if (this.model.selectedFeatures.length > 0) {
@@ -104,6 +108,7 @@ export class InfoController {
     let newClass = this.model.controlElement.className.replace(' leaflet-control-cartodb-infoboxplus-expanded','');
     this.model.controlElement.className = newClass;
     this.listView.hide();
+    this.buttonView.hideHeading();
     this.model.isActive = false;
     console.log('Infobox tool is no longer active.')
   }

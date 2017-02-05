@@ -16,7 +16,6 @@ export class InfoButtonView {
     var self = this;
     this.buttonElement = document.createElement('a');
     this.buttonElement.innerText = 'i';
-    this.buttonElement.style.fontFamily = "serif";
     this.buttonElement.style.fontWeight = "bold";
     this.buttonElement.setAttribute('href','#');
     this.buttonElement.className = "leaflet-control-cartodb-infoboxplus-icon";
@@ -28,6 +27,16 @@ export class InfoButtonView {
       };
     }
     this.controller.getControlElement().appendChild(this.buttonElement);
+  }
+
+  showHeading(heading: string) {
+    this.buttonElement.className = "leaflet-control-cartodb-infoboxplus-icon-expanded";
+    this.buttonElement.innerText = heading;
+  }
+
+  hideHeading() {
+    this.buttonElement.className = "leaflet-control-cartodb-infoboxplus-icon";
+    this.buttonElement.innerText = 'i';
   }
 }
 
